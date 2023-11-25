@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Head & Tail</title>
+
+    <style>
+        select,
+        button {
+            margin-top: 150px;
+            height: 35px;
+        }
+        
+        select {
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body onload="initialize()">
+    <center>
+        <span>
+            <select name="ht" id="ht">
+                <option value="" selected disabled>Select Value</option>
+                <option value="H">H</option>
+                <option value="T">T</option>
+            </select>
+    
+            <button onclick="submitPattern()">Submit</button>
+            <button onclick="resetPattern()">Reset</button>
+            <br><br><br>
+            <table>
+                <tbody id="patternDisplay"></tbody>
+            </table>
+        </span>
+    </center>
+
+    <script>
+        let htarr = [];
+        let chlength = [];
+        let dis = document.getElementById('patternDisplay');
+        let ht = document.getElementById('ht');
+        let i = 0;
+        let j = 1;
+        let p = 1;
+
+        function initialize() {
+            document.getElementById('ht').focus();
+        }
+
+        function submitPattern() {
+            htarr.push(ht.value);
+            var x = htarr.length - 1;
+
+            if (dis.rows.length == 0) {
+                dis.innerHTML += '<tr><td>' + ht.value + '</td></tr>';
+            } else if (htarr[x] != htarr[x - 1]) {
+                j = 0;
+                p = 0;
+                chlength.push(dis.children[p].children.length);
+                dis.rows[0].innerHTML += '<td>' + ht.value + '</td>';
+            } else {
+                if (j == 0) {
+                    p++;
+                    if (p > dis.rows.length - 1) {
+                        dis.innerHTML += '<tr>';
+                        chlength.push(dis.children[p].children.length);
+                        y = chlength.length - 1;
+
+                        if (chlength[y] < chlength[y - 1]) {
+                            o = (chlength[y - 1] - chlength[y]);
+                            for (i = 0; i < o; i++) {
+                                dis.rows[p].innerHTML += '<td></td>';
+                            }
+                            chlength[y] = (chlength[y - 1] - chlength[y]);
+                        }
+
+                        dis.rows[p].innerHTML += '<td>' + ht.value + '</td>';
+                        dis.innerHTML += '</tr>';
+                    } else {
+                        chlength.push(dis.children[p].children.length);
+                        y = chlength.length - 1;
+
+                        if (chlength[y] < chlength[y - 1]) {
+                            o = (chlength[y - 1] - chlength[y]);
+                            for (i = 0; i < o; i++) {
+                                dis.rows[p].innerHTML += '<td></td>';
+                            }
+                            chlength[y] = chlength[y - 1];
+                        }
+
+                        dis.rows[p].innerHTML += '<td>' + ht.value + '</td>';
+                    }
+
+                } else {
+                    dis.innerHTML += '<tr><td>' + ht.value + '</td></tr>';
+                }
+            }
+
+            ht.value = '';
+            ht.focus();
+        }
+
+        function resetPattern() {
+            dis.innerHTML = '';
+        }
+    </script>
+</body>
+
+</html>
